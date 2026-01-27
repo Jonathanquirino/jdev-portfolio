@@ -810,3 +810,14 @@ section .container {
     pointer-events: none;
     z-index: 2;
 }
+.service-card {
+    padding: 50px 30px;
+    border-radius: 20px;
+    transition: 0.4s;
+    /* O SEGREDO ESTÁ AQUI ABAIXO: */
+    background: rgba(255, 255, 255, 0.4) !important; /* Baixei a opacidade para 0.4 */
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}

@@ -37,30 +37,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ============================================================
-       3. REVEAL CINEMATOGRÁFICO (COM DESFOQUE E CASCATA)
-       ============================================================ */
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Seleciona as peças individuais dentro da seção
-                const items = entry.target.querySelectorAll('h1, h2, h3, p, .service-card, .skill-card, .portfolio-item, .image-circle, .btn-cv, img');
-                
-                items.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.filter = 'blur(0px)'; // Volta o foco
-                        item.style.transform = 'translateY(0) scale(1)';
-                        item.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
-                        item.classList.add('ready-to-tilt'); // Habilita o motor de mouse
-                    }, index * 100);
-                });
-            }
+   /* ============================================================
+   REVEAL UNIFICADO (CONTAINER SLIDE + CASCATA CINEMATOGRÁFICA)
+   ============================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const container = entry.target.querySelector('.container');
+        if (!container) return;
+
+        if (entry.isIntersecting) {
+            // 1. Efeito no Container (O "Slow Slide")
+            container.style.filter = 'blur(0px) opacity(1)';
+            container.style.transform = 'translateY(0) scale(1)';
+
+            // 2. Efeito Cascata nos Itens Internos (Reveal)
+            const items = entry.target.querySelectorAll('h1, h2, h3, p, .service-card, .skill-card, .portfolio-item, .image-circle, .btn-cv, img');
+            
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.filter = 'blur(0px)';
+                    item.style.transform = 'translateY(0) scale(1)';
+                    item.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+                    item.classList.add('ready-to-tilt');
+                }, index * 100); // Delay de 100ms entre cada item
+            });
+
+        } else {
+            // Estado de espera quando sai da tela (Reseta para re-animar)
+            container.style.filter = 'blur(5px) opacity(0.5)';
+            container.style.transform = 'translateY(40px) scale(0.98)';
+            
+            // Reseta os itens internos para poderem "nascer" de novo
+            const items = entry.target.querySelectorAll('h1, h2, h3, p, .service-card, .skill-card, .portfolio-item, .image-circle, .btn-cv, img');
+            items.forEach(item => {
+                item.style.opacity = '0';
+                item.style.filter = 'blur(10px)';
+                item.style.transform = 'translateY(20px)';
+            });
+        }
+    });
+}, { threshold: 0.15 });
+
+// Inicialização e Configuração
+document.querySelectorAll('section').forEach(section => {
+    const container = section.querySelector('.container');
+    if (container) {
+        // Estilo inicial do Container
+        container.style.filter = 'blur(5px) opacity(0.5)';
+        container.style.transform = 'translateY(40px) scale(0.98)';
+        container.style.transition = 'all 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        
+        // Estilo inicial dos Itens Internos (para não darem "flash" na tela)
+        const items = section.querySelectorAll('h1, h2, h3, p, .service-card, .skill-card, .portfolio-item, .image-circle, .btn-cv, img');
+        items.forEach(item => {
+            item.style.opacity = '0';
+            item.style.filter = 'blur(10px)';
+            item.style.transform = 'translateY(20px)';
         });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('section').forEach(section => revealObserver.observe(section));
-
+    }
+    revealObserver.observe(section);
+});
     /* ============================================================
        4. MOTOR DE MOUSE INDIVIDUAL (TILT + LEVITAÇÃO)
        ============================================================ */
