@@ -21,7 +21,8 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 15px; /* Reduzi de 20 para 15 para ganhar espaço no 320px */
+    width: 100%; /* Importante para ser elástico */
 }
 
 /*
@@ -305,7 +306,8 @@ nav {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* Ajustado para 280px para não vazar no iPhone SE */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
@@ -360,11 +362,15 @@ nav {
     background-color: #f9f9f9;
 }
 
-.skills-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-top: 30px;
+@media (max-width: 768px) {
+    .skills-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .skill-item {
+        padding: 15px;
+    }
 }
 
 .skill-item {
@@ -412,8 +418,9 @@ nav {
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
+    /* Mudamos de 350px para 280px para caber em qualquer celular */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 20px;
     margin-top: 40px;
 }
 
@@ -645,6 +652,26 @@ nav {
         gap: 20px;
         text-align: center;
     }
+    .about-grid {
+        gap: 20px !important; /* Diminui o buraco entre as colunas */
+        padding: 20px 10px !important; /* Dá um respiro lateral sem exagerar */
+    }
+
+    .personal-details li {
+        flex-direction: column; /* No iPhone SE, o 'Residence' e o endereço ficam um sobre o outro */
+        align-items: flex-start;
+        gap: 5px;
+        padding: 10px 0;
+    }
+
+    .personal-details li strong {
+        min-width: auto; /* Remove a largura mínima que empurra o texto */
+    }
+
+    .description {
+        font-size: 16px !important; /* Texto um pouco menor para caber melhor */
+        text-align: left;
+    }
 }
 /* 
    RESPONSIVIDADE (QUERIES DE MÍDIA)
@@ -691,6 +718,31 @@ section {
 section .container {
     will-change: transform, opacity, filter;
 }
+.contact-grid {
+        gap: 15px !important;
+    }
+
+    .contact-item {
+        padding: 10px; /* Reduz o espaço interno do card */
+        width: 100%; /* Garante que ele não passe da largura da tela */
+    }
+
+    .card-content h3 {
+        font-size: 14px; /* Diminui o título do card de contato */
+    }
+
+    .card-content p {
+        font-size: 11px; /* Diminui o e-mail/telefone para não vazar */
+        word-break: break-all; /* Se o e-mail for longo, ele quebra a linha em vez de sumir */
+    }
+
+    .contact-cta {
+        padding: 20px !important; /* O antigo 40px matava o espaço no 320px */
+    }
+    
+    .contact-cta h3 {
+        font-size: 18px;
+    }
 }
 /* Estado inicial de todos os elementos que queremos animar */
 .reveal {
@@ -810,14 +862,44 @@ section .container {
     pointer-events: none;
     z-index: 2;
 }
-.service-card {
-    padding: 50px 30px;
-    border-radius: 20px;
-    transition: 0.4s;
-    /* O SEGREDO ESTÁ AQUI ABAIXO: */
-    background: rgba(255, 255, 255, 0.4) !important; /* Baixei a opacidade para 0.4 */
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+/* ============================================================
+   RESPONSIVIDADE FINALIZADA (ESTILO JDEV)
+   ============================================================ */
+@media (max-width: 768px) {
+    .hero {
+        padding: 1px 0 40px 0; /* Seu ajuste matador */
+        min-height: auto;
+        margin-top: 60px; /* Dá espaço para o Header fixo não cobrir a foto */
+    }
+
+    .hero-layout {
+        display: flex;
+        flex-direction: column-reverse; 
+        text-align: center;
+        gap: 15px; 
+    }
+
+    .image-circle {
+        width: 150px !important; /* Foto compacta e elegante */
+        height: 150px !important;
+        margin: 0 auto;
+    }
+
+    .hero-text h1 {
+        font-size: 1.8rem;
+        line-height: 1.2;
+    }
+
+    .hero-text p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    /* Ajuste nos botões para não ficarem gigantes */
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
 }
