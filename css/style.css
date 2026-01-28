@@ -517,6 +517,26 @@ nav {
     justify-content: center;
 }
 
+/* No PC: Desativa o clique e esconde a seta */
+.email-action-link {
+    pointer-events: none;
+    cursor: default;
+}
+.mobile-arrow {
+    display: none;
+}
+
+/* No Mobile: Ativa tudo! */
+@media (max-width: 768px) {
+    .email-action-link {
+        pointer-events: auto;
+        cursor: pointer;
+    }
+    .mobile-arrow {
+        display: block;
+    }
+}
+
 .card-content {
     flex-grow: 1;
     margin-left: 15px;
